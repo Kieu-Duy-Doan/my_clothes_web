@@ -52,4 +52,17 @@ class AuthController extends Controller
         }
         return redirect()->back()->with('error', 'Email hoặc mật khẩu không đúng.');
     }
+
+    public function logout(Request $request)
+    {
+        // thay đổi giá trị remember token trong bảng user
+        // Vô hiệu hóa token cũ
+        Auth::logout();
+
+        $request->session()->invalidate();
+        // xóa bỏ bản ghi trong bảng session.
+
+        $request->session()->regenerateToken();
+        // Tạo lại csrf token
+    }
 }
