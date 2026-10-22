@@ -20,5 +20,6 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::post('/logout', [AdminsAuthController::class, 'logout'])->name('admin.logout');
     });
 });

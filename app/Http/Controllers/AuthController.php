@@ -64,5 +64,7 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
         // Tạo lại csrf token
+
+        return redirect()->route('login');
     }
 }
