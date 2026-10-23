@@ -93,7 +93,7 @@
                 Quản lý kho thời trang
             </p>
 
-            <a href="#"
+            <a href="{{ route('admin.shirt.index') }}"
                 class="flex items-center justify-between px-3 py-2.5 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 text-xs font-medium tracking-wider transition-colors">
                 <div class="flex items-center gap-3">
                     <svg class="w-4 h-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

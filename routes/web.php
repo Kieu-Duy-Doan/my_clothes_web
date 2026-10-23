@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admins\AuthController as AdminsAuthController;
 use App\Http\Controllers\admins\DashboardController;
+use App\Http\Controllers\admins\ShirtController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -18,8 +19,10 @@ Route::prefix('admin')->group(function () {
     Route::get('login', [AdminsAuthController::class, 'getLogin'])->name('admin.getLogin');
     Route::post('login', [AdminsAuthController::class, 'login'])->name('admin.login');
 
-    Route::middleware('admin')->group(function () {
+    Route::middleware(['admin', 'auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::post('/logout', [AdminsAuthController::class, 'logout'])->name('admin.logout');
+        Route::get('/shirts/index', [ShirtController::class, 'index'])->name('admin.shirt.index');
+        Route::post('/shirts/store', [ShirtController::class, 'store'])->name('admin.shirt.store');
     });
 });
