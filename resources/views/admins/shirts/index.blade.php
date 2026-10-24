@@ -512,7 +512,8 @@
                                         <td class="px-6 py-4">
                                             <div class="flex items-center gap-3">
                                                 @if (isset($shirtImgUrl))
-                                                    <img src="{{ $shirtImgUrl }}" alt="{{ $shirt->name }}"
+                                                    <img src="{{ asset('storage' . '/' . $shirtImgUrl) }}"
+                                                        alt="{{ $shirt->name }}"
                                                         class="w-10 h-10 rounded-lg object-cover border border-neutral-800 shrink-0 bg-neutral-900">
                                                 @else
                                                     <div
@@ -561,9 +562,7 @@
                                         <td class="px-6 py-4 text-right">
                                             <div class="inline-flex items-center gap-1">
                                                 <!-- View / Quick View Button -->
-                                                <button type="button"
-                                                    onclick="openViewModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}', '{{ number_format($shirt->price, 0, ',', '.') }}₫', '{{ $shirt->star }}', '{{ addslashes($shirt->description ?? '') }}', '{{ $shirtImgUrl }}')"
-                                                    title="Xem chi tiết"
+                                                <a href="{{ route('admin.shirt.view', $shirt->id) }}"
                                                     class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
                                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                                         stroke="currentColor">
@@ -573,7 +572,7 @@
                                                             stroke-width="2"
                                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                     </svg>
-                                                </button>
+                                                </a>
 
                                                 <!-- Edit Button -->
                                                 <button type="button"

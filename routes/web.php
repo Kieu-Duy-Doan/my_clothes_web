@@ -24,5 +24,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/logout', [AdminsAuthController::class, 'logout'])->name('admin.logout');
         Route::get('/shirts/index', [ShirtController::class, 'index'])->name('admin.shirt.index');
         Route::post('/shirts/store', [ShirtController::class, 'store'])->name('admin.shirt.store');
+        Route::get('shirt/{shirtId}', [ShirtController::class, 'view'])->name('admin.shirt.view');
     });
 });

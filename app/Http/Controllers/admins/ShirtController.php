@@ -33,7 +33,7 @@ class ShirtController extends Controller
                     throw new \Exception('Không tìm được file bạn chọn!');
                 }
 
-                $imageUrl = $file->store('shirts', 'publice');
+                $imageUrl = $file->store('shirts', 'public');
                 // $image có  giá trị có thể: false nếu store thất bại. null nếu lấy file thất bại do dòng 24
                 // gán là null.
 
@@ -51,5 +51,11 @@ class ShirtController extends Controller
             dd($th->getMessage());
             return redirect()->back()->with('errors', $th->getMessage());
         }
+    }
+
+    public function view(Request $request, $shirtId)
+    {
+        $shirt = Shirt::findOrFail($shirtId);
+        return view('admins.shirts.view', compact('shirt'));
     }
 }
