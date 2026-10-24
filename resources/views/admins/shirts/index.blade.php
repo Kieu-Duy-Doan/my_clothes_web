@@ -238,7 +238,7 @@
         <div class="p-6 lg:p-10 space-y-6 flex-1">
 
             <!-- Flash Alert (If any) -->
-             @if (session('errors'))
+            @if (session('errors'))
                 <div
                     class="p-4 rounded-xl bg-white text-black text-xs font-medium flex items-center justify-between shadow-xl">
                     <div class="flex items-center gap-3">
@@ -289,13 +289,15 @@
                 <div class="p-5 rounded-2xl bg-black border border-neutral-900">
                     <span class="text-[10px] font-mono-code uppercase tracking-wider text-neutral-400">Đánh Giá
                         TB</span>
-                    <p class="text-2xl font-extrabold font-display text-white mt-1">4.9 ★</p>
+                    <p class="text-2xl font-extrabold font-display text-white mt-1">
+                        {{ number_format($rateAvg, 1, ',', '.') }} ★</p>
                     <span class="text-[11px] text-neutral-500 font-mono-code mt-1 block">Thang điểm 5.0</span>
                 </div>
                 <div class="p-5 rounded-2xl bg-black border border-neutral-900">
                     <span class="text-[10px] font-mono-code uppercase tracking-wider text-neutral-400">Giá Trung
                         Bình</span>
-                    <p class="text-2xl font-extrabold font-display text-white mt-1">320.000₫</p>
+                    <p class="text-2xl font-extrabold font-display text-white mt-1">
+                        {{ number_format($priceAvg, 0, ',') }}₫</p>
                     <span class="text-[11px] text-neutral-500 font-mono-code mt-1 block">Mức phổ biến</span>
                 </div>
                 <div class="p-5 rounded-2xl bg-black border border-neutral-900">
@@ -486,237 +488,145 @@
                         </thead>
 
                         <tbody class="divide-y divide-neutral-900" id="shirts-table-body">
-                            {{-- Khi có data backend từ $shirts: lặp foreach --}}
-                            @php
-                                // Mockup fallback data nếu controller chưa truyền $shirts
-                                $sampleShirts = [
-                                    (object) [
-                                        'id' => 1,
-                                        'name' => 'Monochrome Oversized Tee',
-                                        'description' =>
-                                            'Áo thun phom rộng chất liệu Cotton Compact 280GSM, vải dệt chống xù cao cấp.',
-                                        'price' => 350000,
-                                        'star' => 5.0,
-                                        'created_at' => now()->subDays(2),
-                                    ],
-                                    (object) [
-                                        'id' => 2,
-                                        'name' => 'Minimalist Heavyweight Boxy Tee',
-                                        'description' =>
-                                            'Áo thun dáng hộp Minimalist cổ bo 3.2cm, tông màu đen sâu tuyền.',
-                                        'price' => 380000,
-                                        'star' => 4.9,
-                                        'created_at' => now()->subDays(5),
-                                    ],
-                                    (object) [
-                                        'id' => 3,
-                                        'name' => 'Raw Edge Pocket White Shirt',
-                                        'description' =>
-                                            'Áo sơ mi tay lỡ túi vuông ngực, viền chỉ may phong cách kiến trúc tối giản.',
-                                        'price' => 450000,
-                                        'star' => 4.8,
-                                        'created_at' => now()->subDays(7),
-                                    ],
-                                    (object) [
-                                        'id' => 4,
-                                        'name' => 'Signature Studio Polo Shirt',
-                                        'description' =>
-                                            'Áo polo dệt kim dập vân tổ ong, cổ áo dệt phẳng không cúc thanh lịch.',
-                                        'price' => 420000,
-                                        'star' => 4.7,
-                                        'created_at' => now()->subDays(10),
-                                    ],
-                                    (object) [
-                                        'id' => 5,
-                                        'name' => 'Essential Basic Black Tee',
-                                        'description' =>
-                                            'Dòng áo thun cơ bản thường ngày, thoáng khí và thấm hút mồ hôi tối đa.',
-                                        'price' => 190000,
-                                        'star' => 4.6,
-                                        'created_at' => now()->subDays(12),
-                                    ],
-                                    (object) [
-                                        'id' => 6,
-                                        'name' => 'Casual Crisp Oxford Shirt',
-                                        'description' =>
-                                            'Sơ mi Oxford màu trắng ngà thanh lịch, phom may thoải mái cho cả nam và nữ.',
-                                        'price' => 490000,
-                                        'star' => 5.0,
-                                        'created_at' => now()->subDays(15),
-                                    ],
-                                    (object) [
-                                        'id' => 7,
-                                        'name' => 'Relaxed Knit Drop-Shoulder Tee',
-                                        'description' => 'Áo vai trễ dệt sợi mát lạnh thích hợp cho mùa hè năng động.',
-                                        'price' => 290000,
-                                        'star' => 4.5,
-                                        'created_at' => now()->subDays(18),
-                                    ],
-                                    (object) [
-                                        'id' => 8,
-                                        'name' => 'Dark Techwear Zip Polo',
-                                        'description' =>
-                                            'Polo kéo khóa kim loại mạ mờ, phong cách monochrome streetwear.',
-                                        'price' => 390000,
-                                        'star' => 4.9,
-                                        'created_at' => now()->subDays(20),
-                                    ],
-                                ];
-                                $itemsToDisplay = isset($shirts) && count($shirts) > 0 ? $shirts : $sampleShirts;
-                            @endphp
+                            @if (isset($shirts) && count($shirts) > 0)
+                                @foreach ($shirts as $shirt)
+                                    @php
+                                        $shirtImgUrl = $shirt->image ?? null;
+                                    @endphp
+                                    <tr class="hover:bg-neutral-900/40 transition-colors shirt-row"
+                                        data-id="{{ $shirt->id }}" data-name="{{ strtolower($shirt->name) }}"
+                                        data-price="{{ $shirt->price }}" data-star="{{ $shirt->star }}"
+                                        data-image="{{ $shirtImgUrl }}">
+                                        <!-- Checkbox -->
+                                        <td class="px-6 py-4 text-center">
+                                            <input type="checkbox"
+                                                class="row-checkbox rounded bg-neutral-900 border-neutral-700 text-white focus:ring-0 focus:ring-offset-0 cursor-pointer">
+                                        </td>
 
-                            @forelse($itemsToDisplay as $shirt)
-                                @php
-                                    $shirtImgUrl = !empty($shirt->image) ? (str_starts_with($shirt->image, 'http') ? $shirt->image : asset('storage/' . $shirt->image)) : '';
-                                @endphp
-                                <tr class="hover:bg-neutral-900/40 transition-colors shirt-row"
-                                    data-id="{{ $shirt->id }}" data-name="{{ strtolower($shirt->name) }}"
-                                    data-price="{{ $shirt->price }}" data-star="{{ $shirt->star }}"
-                                    data-image="{{ $shirtImgUrl }}">
+                                        <!-- ID -->
+                                        <td class="px-6 py-4 font-mono-code text-neutral-400">
+                                            #{{ $shirt->id }}
+                                        </td>
 
-                                    <!-- Checkbox -->
-                                    <td class="px-6 py-4 text-center">
-                                        <input type="checkbox"
-                                            class="row-checkbox rounded bg-neutral-900 border-neutral-700 text-white focus:ring-0 focus:ring-offset-0 cursor-pointer">
-                                    </td>
-
-                                    <!-- ID Code -->
-                                    <td class="px-6 py-4 font-mono-code text-neutral-400">
-                                        #{{ str_pad($shirt->id, 3, '0', STR_PAD_LEFT) }}
-                                    </td>
-
-                                    <!-- Shirt Name & Thumbnail -->
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            @if (!empty($shirtImgUrl))
-                                                <img src="{{ $shirtImgUrl }}" alt="{{ $shirt->name }}"
-                                                    class="w-10 h-10 rounded-lg object-cover border border-neutral-800 shrink-0 bg-neutral-900">
-                                            @else
-                                                <div
-                                                    class="w-10 h-10 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center shrink-0 text-white font-mono-code font-bold text-xs uppercase">
-                                                    {{ substr($shirt->name, 0, 2) }}
+                                        <!-- tên hoặc ảnh sản phẩm -->
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                @if (isset($shirtImgUrl))
+                                                    <img src="{{ $shirtImgUrl }}" alt="{{ $shirt->name }}"
+                                                        class="w-10 h-10 rounded-lg object-cover border border-neutral-800 shrink-0 bg-neutral-900">
+                                                @else
+                                                    <div
+                                                        class="w-10 h-10 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center shrink-0 text-white font-mono-code font-bold text-xs uppercase">
+                                                        {{ substr($shirt->name, 0, 2) }}
+                                                    </div>
+                                                @endif
+                                                <div>
+                                                    <h4
+                                                        class="font-bold text-white uppercase tracking-wide shirt-item-name">
+                                                        {{ $shirt->name }}
+                                                    </h4>
+                                                    <span class="text-[10px] text-neutral-400 font-mono-code">
+                                                        SKU: MC-{{ $shirt->id }}
+                                                    </span>
                                                 </div>
-                                            @endif
-                                            <div>
-                                                <h4
-                                                    class="font-bold text-white uppercase tracking-wide shirt-item-name">
-                                                    {{ $shirt->name }}
-                                                </h4>
-                                                <span class="text-[10px] text-neutral-400 font-mono-code">
-                                                    SKU: MC-{{ str_pad($shirt->id, 4, '0', STR_PAD_LEFT) }}
-                                                </span>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <!-- Description -->
-                                    <td
-                                        class="px-6 py-4 max-w-xs text-neutral-400 text-[11px] leading-relaxed truncate">
-                                        {{ $shirt->description ?? 'Không có mô tả' }}
-                                    </td>
+                                        <!-- Description -->
+                                        <td
+                                            class="px-6 py-4 max-w-xs text-neutral-400 text-[11px] leading-relaxed truncate">
+                                            {{ $shirt->description ?? 'Không có mô tả' }}
+                                        </td>
 
-                                    <!-- Price -->
-                                    <td class="px-6 py-4 font-mono-code font-bold text-white text-xs">
-                                        {{ number_format($shirt->price, 0, ',', '.') }}₫
-                                    </td>
+                                        <!-- Price -->
+                                        <td class="px-6 py-4 font-mono-code font-bold text-white text-xs">
+                                            {{ number_format($shirt->price, 0, ',', '.') }}₫
+                                        </td>
 
-                                    <!-- Star Rating -->
-                                    <td class="px-6 py-4">
-                                        <div
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-neutral-900 border border-neutral-800 font-mono-code text-white text-xs">
-                                            <span class="text-white">★</span>
-                                            <span>{{ number_format($shirt->star, 1) }}</span>
-                                        </div>
-                                    </td>
+                                        <!-- Star Rating -->
+                                        <td class="px-6 py-4">
+                                            <div
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-neutral-900 border border-neutral-800 font-mono-code text-white text-xs">
+                                                <span class="text-white">★</span>
+                                                <span>{{ number_format($shirt->star, 1) }}</span>
+                                            </div>
+                                        </td>
 
-                                    <!-- Created Date -->
-                                    <td class="px-6 py-4 font-mono-code text-neutral-400 text-[11px]">
-                                        {{ !empty($shirt->created_at) ? date('d/m/Y', strtotime($shirt->created_at)) : 'Gần đây' }}
-                                    </td>
+                                        <!-- Created Date -->
+                                        <td class="px-6 py-4 font-mono-code text-neutral-400 text-[11px]">
+                                            {{ !empty($shirt->created_at) ? date('d/m/Y', strtotime($shirt->created_at)) : 'Gần đây' }}
+                                        </td>
 
-                                    <!-- Actions Buttons -->
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="inline-flex items-center gap-1">
-                                            <!-- View / Quick View Button -->
-                                            <button type="button"
-                                                onclick="openViewModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}', '{{ number_format($shirt->price, 0, ',', '.') }}₫', '{{ $shirt->star }}', '{{ addslashes($shirt->description ?? '') }}', '{{ $shirtImgUrl }}')"
-                                                title="Xem chi tiết"
-                                                class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
-                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                            </button>
+                                        <!-- Actions Buttons -->
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="inline-flex items-center gap-1">
+                                                <!-- View / Quick View Button -->
+                                                <button type="button"
+                                                    onclick="openViewModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}', '{{ number_format($shirt->price, 0, ',', '.') }}₫', '{{ $shirt->star }}', '{{ addslashes($shirt->description ?? '') }}', '{{ $shirtImgUrl }}')"
+                                                    title="Xem chi tiết"
+                                                    class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
+                                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+                                                </button>
 
-                                            <!-- Edit Button -->
-                                            <button type="button"
-                                                onclick="openEditModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}', '{{ $shirt->price }}', '{{ $shirt->star }}', '{{ addslashes($shirt->description ?? '') }}', '{{ $shirtImgUrl }}')"
-                                                title="Chỉnh sửa áo"
-                                                class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
-                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </button>
+                                                <!-- Edit Button -->
+                                                <button type="button"
+                                                    onclick="openEditModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}', '{{ $shirt->price }}', '{{ $shirt->star }}', '{{ addslashes($shirt->description ?? '') }}', '{{ $shirtImgUrl }}')"
+                                                    title="Chỉnh sửa áo"
+                                                    class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
+                                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                    </svg>
+                                                </button>
 
-                                            <!-- Delete Button -->
-                                            <button type="button"
-                                                onclick="openDeleteModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}')"
-                                                title="Xóa mẫu áo"
-                                                class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
-                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
+                                                <!-- Delete Button -->
+                                                <button type="button"
+                                                    onclick="openDeleteModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}')"
+                                                    title="Xóa mẫu áo"
+                                                    class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
+                                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
                                 <tr>
                                     <td colspan="8" class="px-6 py-12 text-center text-neutral-500 font-mono-code">
                                         Không tìm thấy mẫu áo nào phù hợp với điều kiện lọc.
                                     </td>
                                 </tr>
-                            @endforelse
+                            @endif
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Table Pagination Bar -->
+                <!-- Phân trang -->
                 <div
                     class="p-5 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between gap-4 bg-neutral-950/60">
                     <p class="text-xs text-neutral-400 font-mono-code">
-                        Hiển thị <span class="text-white font-bold">1 - 8</span> trong tổng số <span
-                            class="text-white font-bold">8</span> mẫu áo
+                        Hiển thị <span class="text-white font-bold">{{ $shirts->firstItem() }} -
+                            {{ $shirts->lastItem() }}</span> trong tổng số <span
+                            class="text-white font-bold">{{ $shirts->total() }}</span> mẫu áo
                     </p>
 
-                    <!-- Pagination Navigation -->
-                    <div class="flex items-center gap-1.5 font-mono-code text-xs">
-                        <button type="button" disabled
-                            class="px-3 py-1.5 rounded-lg border border-neutral-900 bg-neutral-950 text-neutral-600 cursor-not-allowed">
-                            ← Trước
-                        </button>
-                        <button type="button"
-                            class="px-3 py-1.5 rounded-lg bg-white text-black font-bold border border-white">
-                            1
-                        </button>
-                        <button type="button"
-                            class="px-3 py-1.5 rounded-lg border border-neutral-800 bg-neutral-950 text-neutral-300 hover:text-white hover:border-neutral-700 transition-colors">
-                            2
-                        </button>
-                        <button type="button"
-                            class="px-3 py-1.5 rounded-lg border border-neutral-800 bg-neutral-950 text-neutral-300 hover:text-white hover:border-neutral-700 transition-colors">
-                            Sau →
-                        </button>
+                    <!-- Phân trang -->
+                    <div>
+                        {{ $shirts->withQueryString()->links('components.pagination') }}
                     </div>
                 </div>
 
@@ -738,7 +648,8 @@
     <!-- ========================================================================= -->
     <div id="modal-create"
         class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-neutral-950 border border-neutral-800 p-6 shadow-2xl relative">
+        <div
+            class="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-neutral-950 border border-neutral-800 p-6 shadow-2xl relative">
             <div class="flex items-center justify-between pb-4 border-b border-neutral-900">
                 <div class="flex items-center gap-2.5">
                     <span class="w-2 h-2 rounded-full bg-white"></span>
@@ -790,11 +701,13 @@
                     </label>
                     <div id="create-dropzone"
                         class="border border-dashed border-neutral-800 hover:border-neutral-600 rounded-xl p-4 text-center cursor-pointer transition-all bg-neutral-900/30 hover:bg-neutral-900/60 group">
-                        <input type="file" name="image" id="create-shirt-image" accept="image/*" class="hidden">
-                        
+                        <input type="file" name="image" id="create-shirt-image" accept="image/*"
+                            class="hidden">
+
                         <!-- Placeholder trạng thái chưa chọn ảnh -->
                         <div id="create-placeholder" class="py-2 space-y-2">
-                            <div class="w-10 h-10 mx-auto rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 group-hover:text-white transition-colors">
+                            <div
+                                class="w-10 h-10 mx-auto rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 group-hover:text-white transition-colors">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -804,7 +717,8 @@
                                 <p class="text-xs text-neutral-300 font-medium group-hover:text-white">
                                     <span class="underline">Bấm để tải ảnh lên</span> hoặc kéo thả vào đây
                                 </p>
-                                <p class="text-[10px] text-neutral-500 font-mono-code mt-0.5">PNG, JPG, WEBP, GIF (Tối đa 5MB)</p>
+                                <p class="text-[10px] text-neutral-500 font-mono-code mt-0.5">PNG, JPG, WEBP, GIF (Tối
+                                    đa 5MB)</p>
                             </div>
                         </div>
 
@@ -813,11 +727,15 @@
                             <img id="create-preview-img" src="" alt="Preview"
                                 class="w-16 h-16 rounded-lg object-cover border border-neutral-700 bg-black shrink-0">
                             <div class="flex-1 min-w-0">
-                                <span class="px-2 py-0.5 text-[9px] font-mono-code uppercase rounded bg-white text-black font-bold">Ảnh đã chọn</span>
+                                <span
+                                    class="px-2 py-0.5 text-[9px] font-mono-code uppercase rounded bg-white text-black font-bold">Ảnh
+                                    đã chọn</span>
                                 <p id="create-file-name" class="text-xs font-semibold text-white truncate mt-1"></p>
-                                <p id="create-file-size" class="text-[10px] font-mono-code text-neutral-400 mt-0.5"></p>
+                                <p id="create-file-size" class="text-[10px] font-mono-code text-neutral-400 mt-0.5">
+                                </p>
                                 <div class="flex items-center gap-2 mt-2">
-                                    <button type="button" onclick="document.getElementById('create-shirt-image').click(); event.stopPropagation();"
+                                    <button type="button"
+                                        onclick="document.getElementById('create-shirt-image').click(); event.stopPropagation();"
                                         class="text-[10px] text-neutral-300 hover:text-white underline cursor-pointer">
                                         Đổi ảnh khác
                                     </button>
@@ -859,7 +777,8 @@
     <!-- ========================================================================= -->
     <div id="modal-edit"
         class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-neutral-950 border border-neutral-800 p-6 shadow-2xl relative">
+        <div
+            class="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-neutral-950 border border-neutral-800 p-6 shadow-2xl relative">
             <div class="flex items-center justify-between pb-4 border-b border-neutral-900">
                 <div class="flex items-center gap-2.5">
                     <span class="w-2 h-2 rounded-full bg-white"></span>
@@ -874,7 +793,8 @@
             </div>
 
             <!-- Form Sửa Áo -->
-            <form id="form-edit-shirt" method="POST" action="#" enctype="multipart/form-data" class="mt-5 space-y-4">
+            <form id="form-edit-shirt" method="POST" action="#" enctype="multipart/form-data"
+                class="mt-5 space-y-4">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="shirt_id" id="edit-shirt-id">
@@ -914,21 +834,25 @@
                     <div id="edit-dropzone"
                         class="border border-dashed border-neutral-800 hover:border-neutral-600 rounded-xl p-4 text-center cursor-pointer transition-all bg-neutral-900/30 hover:bg-neutral-900/60 group">
                         <input type="file" name="image" id="edit-shirt-image" accept="image/*" class="hidden">
-                        
+
                         <!-- Khi sản phẩm đã có ảnh hiện tại và chưa chọn ảnh mới -->
                         <div id="edit-current-image-wrapper" class="hidden flex items-center gap-3 text-left">
                             <img id="edit-current-img" src="" alt="Ảnh hiện tại"
                                 class="w-16 h-16 rounded-lg object-cover border border-neutral-700 bg-black shrink-0">
                             <div class="flex-1 min-w-0">
-                                <span class="px-2 py-0.5 text-[9px] font-mono-code uppercase rounded bg-neutral-800 text-neutral-300 border border-neutral-700">Ảnh hiện tại</span>
+                                <span
+                                    class="px-2 py-0.5 text-[9px] font-mono-code uppercase rounded bg-neutral-800 text-neutral-300 border border-neutral-700">Ảnh
+                                    hiện tại</span>
                                 <p class="text-xs text-neutral-300 mt-1">Bấm vào đây để tải ảnh mới thay thế</p>
-                                <p class="text-[10px] text-neutral-500 font-mono-code mt-0.5">PNG, JPG, WEBP, GIF (Tối đa 5MB)</p>
+                                <p class="text-[10px] text-neutral-500 font-mono-code mt-0.5">PNG, JPG, WEBP, GIF (Tối
+                                    đa 5MB)</p>
                             </div>
                         </div>
 
                         <!-- Khi sản phẩm chưa có ảnh và chưa chọn ảnh mới -->
                         <div id="edit-placeholder" class="py-2 space-y-2">
-                            <div class="w-10 h-10 mx-auto rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 group-hover:text-white transition-colors">
+                            <div
+                                class="w-10 h-10 mx-auto rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 group-hover:text-white transition-colors">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -938,7 +862,8 @@
                                 <p class="text-xs text-neutral-300 font-medium group-hover:text-white">
                                     <span class="underline">Bấm để tải ảnh lên</span> hoặc kéo thả vào đây
                                 </p>
-                                <p class="text-[10px] text-neutral-500 font-mono-code mt-0.5">PNG, JPG, WEBP, GIF (Tối đa 5MB)</p>
+                                <p class="text-[10px] text-neutral-500 font-mono-code mt-0.5">PNG, JPG, WEBP, GIF (Tối
+                                    đa 5MB)</p>
                             </div>
                         </div>
 
@@ -947,11 +872,14 @@
                             <img id="edit-new-preview-img" src="" alt="Ảnh mới"
                                 class="w-16 h-16 rounded-lg object-cover border border-white bg-black shrink-0">
                             <div class="flex-1 min-w-0">
-                                <span class="px-2 py-0.5 text-[9px] font-mono-code uppercase rounded bg-white text-black font-bold">Ảnh mới đã chọn</span>
+                                <span
+                                    class="px-2 py-0.5 text-[9px] font-mono-code uppercase rounded bg-white text-black font-bold">Ảnh
+                                    mới đã chọn</span>
                                 <p id="edit-file-name" class="text-xs font-semibold text-white truncate mt-1"></p>
                                 <p id="edit-file-size" class="text-[10px] font-mono-code text-neutral-400 mt-0.5"></p>
                                 <div class="flex items-center gap-2 mt-2">
-                                    <button type="button" onclick="document.getElementById('edit-shirt-image').click(); event.stopPropagation();"
+                                    <button type="button"
+                                        onclick="document.getElementById('edit-shirt-image').click(); event.stopPropagation();"
                                         class="text-[10px] text-neutral-300 hover:text-white underline cursor-pointer">
                                         Chọn ảnh khác
                                     </button>
@@ -993,7 +921,8 @@
     <!-- ========================================================================= -->
     <div id="modal-view"
         class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-neutral-950 border border-neutral-800 p-6 shadow-2xl relative">
+        <div
+            class="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-neutral-950 border border-neutral-800 p-6 shadow-2xl relative">
             <div class="flex items-center justify-between pb-4 border-b border-neutral-900">
                 <span class="text-[10px] font-mono-code uppercase text-neutral-500" id="view-shirt-sku">SKU:
                     MC-0000</span>
@@ -1207,7 +1136,7 @@
                 editNewImg.src = e.target.result;
                 editFileName.innerText = file.name;
                 editFileSize.innerText = formatFileSize(file.size);
-                
+
                 editCurrentWrapper.classList.add('hidden');
                 editPlaceholder.classList.add('hidden');
                 editNewWrapper.classList.remove('hidden');

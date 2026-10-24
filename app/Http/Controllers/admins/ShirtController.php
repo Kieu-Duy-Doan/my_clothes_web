@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admins;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreShirtRequest;
+use App\Models\Rate;
 use App\Models\Shirt;
 use Illuminate\Http\Request;
 
@@ -11,8 +12,10 @@ class ShirtController extends Controller
 {
     public function index()
     {
-        $shirts = Shirt::paginate(10);
-        return view('admins.shirts.index', compact('shirts'));
+        $shirts = Shirt::paginate(1);
+        $priceAvg = Shirt::avg('price');
+        $rateAvg = Rate::avg('star');
+        return view('admins.shirts.index', compact('shirts', 'priceAvg', 'rateAvg'));
     }
 
     public function store(StoreShirtRequest $request)
