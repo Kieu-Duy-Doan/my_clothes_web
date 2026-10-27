@@ -238,12 +238,12 @@
         <div class="p-6 lg:p-10 space-y-6 flex-1">
 
             <!-- Flash Alert (If any) -->
-            @if (session('errors'))
+            @if (session('error'))
                 <div
                     class="p-4 rounded-xl bg-white text-black text-xs font-medium flex items-center justify-between shadow-xl">
                     <div class="flex items-center gap-3">
                         <span class="w-2 h-2 rounded-full bg-black"></span>
-                        <span class="font-semibold text-red-100">{{ session('errors') }}</span>
+                        <span class="font-semibold text-red-500">{{ session('error') }}</span>
                     </div>
                     <button type="button" onclick="this.parentElement.remove()"
                         class="text-neutral-500 hover:text-black text-base leading-none">&times;</button>
@@ -561,7 +561,7 @@
                                         <!-- Actions Buttons -->
                                         <td class="px-6 py-4 text-right">
                                             <div class="inline-flex items-center gap-1">
-                                                <!-- View / Quick View Button -->
+                                                <!-- Xem chi tiết -->
                                                 <a href="{{ route('admin.shirt.view', $shirt->id) }}"
                                                     class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
                                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -574,10 +574,8 @@
                                                     </svg>
                                                 </a>
 
-                                                <!-- Edit Button -->
-                                                <button type="button"
-                                                    onclick="openEditModal({{ $shirt->id }}, '{{ addslashes($shirt->name) }}', '{{ $shirt->price }}', '{{ $shirt->star }}', '{{ addslashes($shirt->description ?? '') }}', '{{ $shirtImgUrl }}')"
-                                                    title="Chỉnh sửa áo"
+                                                <!-- Chỉnh sửa -->
+                                                <a href="{{ route('admin.shirt.edit', $shirt->id) }}"
                                                     class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer">
                                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                                         stroke="currentColor">
@@ -585,7 +583,7 @@
                                                             stroke-width="2"
                                                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                     </svg>
-                                                </button>
+                                                </a>
 
                                                 <!-- Delete Button -->
                                                 <button type="button"

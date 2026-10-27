@@ -25,5 +25,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/shirts/index', [ShirtController::class, 'index'])->name('admin.shirt.index');
         Route::post('/shirts/store', [ShirtController::class, 'store'])->name('admin.shirt.store');
         Route::get('shirt/{shirtId}', [ShirtController::class, 'view'])->name('admin.shirt.view');
+        Route::get('shirt/edit/{shirtId}', [ShirtController::class, 'edit'])->name('admin.shirt.edit');
+        Route::post('shirt/update', [ShirtController::class, 'update'])->name('admin.shirt.update');
     });
 });
