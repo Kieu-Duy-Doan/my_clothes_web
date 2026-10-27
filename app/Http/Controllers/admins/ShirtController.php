@@ -85,11 +85,11 @@ class ShirtController extends Controller
 
                 $newImageUrl = $file->store('shirts', 'public');
 
-                if(!$newImageUrl) {
+                if (!$newImageUrl) {
                     throw new \RuntimeException('Không thể lưu ảnh!');
                 }
 
-                
+
                 if ($oldImageUrl && Storage::disk('public')->exists($oldImageUrl)) {
                     Storage::disk('public')->delete($oldImageUrl);
                 }
@@ -99,6 +99,21 @@ class ShirtController extends Controller
             $shirt->update($data);
 
             return redirect()->route('admin.shirt.index')->with('success', 'Cập nhật thành công');
+        } catch (\Throwable $th) {
+            return redirect()->route('admin.shirt.index')->with('error', $th->getMessage());
+        }
+    }
+
+    public function delete($shirtId)
+    {
+        try {
+            $shirt = Shirt::findOrFail($shirtId);
+            if ($shirt->image && Storage::disk('public')->exists($shirt->image)) {
+                Storage::disk('public')->delete($shirt->image);
+            }
+
+            $shirt->delete();
+            return redirect()->route('admin.shirt.index')->with('success', 'Xóa sản phẩm thành công');
         } catch (\Throwable $th) {
             return redirect()->route('admin.shirt.index')->with('error', $th->getMessage());
         }

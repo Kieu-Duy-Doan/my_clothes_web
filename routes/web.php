@@ -27,5 +27,6 @@ Route::prefix('admin')->group(function () {
         Route::get('shirt/{shirtId}', [ShirtController::class, 'view'])->name('admin.shirt.view');
         Route::get('shirt/edit/{shirtId}', [ShirtController::class, 'edit'])->name('admin.shirt.edit');
         Route::post('shirt/update', [ShirtController::class, 'update'])->name('admin.shirt.update');
+        Route::delete('shirt/delete/{shirtId}', [ShirtController::class, 'delete'])->name('admin.shirt.delete');
     });
 });

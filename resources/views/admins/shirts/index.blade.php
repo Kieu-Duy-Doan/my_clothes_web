@@ -993,20 +993,22 @@
                 </p>
             </div>
 
-            <!-- Form Xóa Áo -->
-            <form id="form-delete-shirt" method="POST" action="#"
-                class="mt-6 flex items-center justify-center gap-3">
-                @csrf
-                @method('DELETE')
-                <button type="button" onclick="closeDeleteModal()"
-                    class="px-4 py-2 rounded-xl border border-neutral-800 text-neutral-400 hover:text-white text-xs font-mono-code transition-colors cursor-pointer">
-                    Hủy Bỏ
-                </button>
-                <button type="submit"
-                    class="px-5 py-2 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer">
-                    Xác Nhận Xóa
-                </button>
-            </form>
+            @if (isset($shirts) && count($shirts) > 0)
+                <!-- Form Xóa Áo -->
+                <form id="form-delete-shirt" method="POST" action="{{ route('admin.shirt.delete', $shirt->id) }}"
+                    class="mt-6 flex items-center justify-center gap-3">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" onclick="closeDeleteModal()"
+                        class="px-4 py-2 rounded-xl border border-neutral-800 text-neutral-400 hover:text-white text-xs font-mono-code transition-colors cursor-pointer">
+                        Hủy Bỏ
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer">
+                        Xác Nhận Xóa
+                    </button>
+                </form>
+            @endif
         </div>
     </div>
 
@@ -1263,7 +1265,6 @@
 
         function openDeleteModal(id, name) {
             document.getElementById('delete-shirt-name').innerText = '"' + name + '"';
-            document.getElementById('form-delete-shirt').action = '/admin/shirts/' + id;
             document.getElementById('modal-delete').classList.remove('hidden');
         }
 
