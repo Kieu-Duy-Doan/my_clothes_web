@@ -3,6 +3,7 @@
 use App\Http\Controllers\admins\AuthController as AdminsAuthController;
 use App\Http\Controllers\admins\DashboardController;
 use App\Http\Controllers\admins\ShirtController;
+use App\Http\Controllers\admins\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -28,5 +29,7 @@ Route::prefix('admin')->group(function () {
         Route::get('shirt/edit/{shirtId}', [ShirtController::class, 'edit'])->name('admin.shirt.edit');
         Route::post('shirt/update', [ShirtController::class, 'update'])->name('admin.shirt.update');
         Route::delete('shirt/delete/{shirtId}', [ShirtController::class, 'delete'])->name('admin.shirt.delete');
+        // Quan ly nguoi dung
+        Route::get('users/index', [UserController::class, 'index'])->name('admin.user.index');
     });
 });
