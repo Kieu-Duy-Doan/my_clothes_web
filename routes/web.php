@@ -31,5 +31,7 @@ Route::prefix('admin')->group(function () {
         Route::delete('shirt/delete/{shirtId}', [ShirtController::class, 'delete'])->name('admin.shirt.delete');
         // Quan ly nguoi dung
         Route::get('users/index', [UserController::class, 'index'])->name('admin.user.index');
+        Route::get('user/create', [UserController::class, 'create'])->name('admin.user.create');
+        Route::post('user/store', [UserController::class, 'store'])->name('admin.user.store');
     });
 });
