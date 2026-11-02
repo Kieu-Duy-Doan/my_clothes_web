@@ -5,14 +5,13 @@ namespace App\Http\Controllers\admins;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreuserByAdminRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', '=', 'user')->get();
+        $users = User::where('role', '=', 'user')->paginate(10);
         return view('admins.users.index', compact('users'));
     }
 

@@ -40,7 +40,8 @@
         <div class="p-6 rounded-2xl bg-black border border-neutral-900">
             <div class="flex items-center justify-between text-neutral-500 mb-3">
                 <span class="text-xs uppercase tracking-wider font-semibold">Tài Khoản Khách Hàng</span>
-                <div class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
+                <div
+                    class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -53,7 +54,8 @@
                 </p>
                 <span class="text-[11px] text-neutral-400 font-mono-code">thành viên</span>
             </div>
-            <div class="mt-4 pt-4 border-t border-neutral-900 flex items-center justify-between text-[11px] text-neutral-400">
+            <div
+                class="mt-4 pt-4 border-t border-neutral-900 flex items-center justify-between text-[11px] text-neutral-400">
                 <span>Vai trò:</span>
                 <span class="text-white font-mono-code uppercase font-semibold">Client User</span>
             </div>
@@ -62,7 +64,8 @@
         <div class="p-6 rounded-2xl bg-black border border-neutral-900">
             <div class="flex items-center justify-between text-neutral-500 mb-3">
                 <span class="text-xs uppercase tracking-wider font-semibold">Đã Cập Nhật Địa Chỉ</span>
-                <div class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
+                <div
+                    class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -77,10 +80,11 @@
                 </p>
                 <span class="text-[11px] text-neutral-400 font-mono-code">có địa chỉ giao hàng</span>
             </div>
-            <div class="mt-4 pt-4 border-t border-neutral-900 flex items-center justify-between text-[11px] text-neutral-400">
+            <div
+                class="mt-4 pt-4 border-t border-neutral-900 flex items-center justify-between text-[11px] text-neutral-400">
                 <span>Tỉ lệ hoàn tất hồ sơ</span>
                 <span class="text-white font-mono-code font-bold">
-                    {{ (isset($users) && count($users) > 0) ? round(($users->filter(fn($u) => !empty($u->address))->count() / count($users)) * 100) : 0 }}%
+                    {{ isset($users) && count($users) > 0 ? round(($users->filter(fn($u) => !empty($u->address))->count() / count($users)) * 100) : 0 }}%
                 </span>
             </div>
         </div>
@@ -88,7 +92,8 @@
         <div class="p-6 rounded-2xl bg-black border border-neutral-900">
             <div class="flex items-center justify-between text-neutral-500 mb-3">
                 <span class="text-xs uppercase tracking-wider font-semibold">Trạng Thái An Ninh</span>
-                <div class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-emerald-400">
+                <div
+                    class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-emerald-400">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -101,7 +106,8 @@
                 </p>
                 <span class="text-[11px] text-neutral-400 font-mono-code">bảo mật mật khẩu</span>
             </div>
-            <div class="mt-4 pt-4 border-t border-neutral-900 flex items-center justify-between text-[11px] text-neutral-400">
+            <div
+                class="mt-4 pt-4 border-t border-neutral-900 flex items-center justify-between text-[11px] text-neutral-400">
                 <span>Thuật toán mã hóa</span>
                 <span class="text-white font-mono-code font-bold">Bcrypt Hashing</span>
             </div>
@@ -109,7 +115,8 @@
     </div>
 
     <!-- Action Section Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 rounded-2xl bg-black border border-neutral-900">
+    <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 rounded-2xl bg-black border border-neutral-900">
         <div>
             <h2 class="text-sm font-bold font-display uppercase tracking-wider text-white">Quản Lý Danh Sách</h2>
             <p class="text-xs text-neutral-400 mt-0.5 font-mono-code">Khởi tạo và quản lý quyền hạn thành viên hệ thống</p>
@@ -131,7 +138,8 @@
                 <h3 class="text-xs font-bold uppercase tracking-wider font-display text-white">
                     Danh Sách Tài Khoản Khách Hàng
                 </h3>
-                <span class="px-2 py-0.5 rounded text-[11px] font-mono-code bg-neutral-900 text-neutral-400 border border-neutral-800">
+                <span
+                    class="px-2 py-0.5 rounded text-[11px] font-mono-code bg-neutral-900 text-neutral-400 border border-neutral-800">
                     {{ count($users ?? []) }} tài khoản
                 </span>
             </div>
@@ -153,7 +161,8 @@
                         <th class="px-6 py-4">Email</th>
                         <th class="px-6 py-4">Địa chỉ giao hàng</th>
                         <th class="px-6 py-4">Vai trò</th>
-                        <th class="px-6 py-4 text-right">Ngày đăng ký</th>
+                        <th class="px-6 py-4">Ngày đăng ký</th>
+                        <th class="px-6 py-4 text-right">Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-900" id="users-tbody">
@@ -176,7 +185,8 @@
                                     @endif
                                     <div>
                                         <p class="font-bold text-white uppercase tracking-wide">{{ $user->name }}</p>
-                                        <span class="text-[10px] text-neutral-400 font-mono-code">ID: {{ $user->id }}</span>
+                                        <span class="text-[10px] text-neutral-400 font-mono-code">ID:
+                                            {{ $user->id }}</span>
                                     </div>
                                 </div>
                             </td>
@@ -192,28 +202,71 @@
                             </td>
                             <td class="px-6 py-4">
                                 @if (($user->role ?? '') === 'admin')
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white text-black font-mono-code">
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white text-black font-mono-code">
                                         Admin
                                     </span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono-code uppercase font-semibold bg-neutral-900 text-neutral-400 border border-neutral-800">
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-mono-code uppercase font-semibold bg-neutral-900 text-neutral-400 border border-neutral-800">
                                         {{ $user->role ?? 'user' }}
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-right font-mono-code text-neutral-400">
+                            <td class="px-6 py-4 font-mono-code text-neutral-400 text-xs">
                                 {{ !empty($user->created_at) ? date('d/m/Y H:i', strtotime($user->created_at)) : 'N/A' }}
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="inline-flex items-center gap-1">
+                                    <!-- Xem chi tiết -->
+                                    <a href="#"
+                                        class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer"
+                                        title="Xem chi tiết người dùng">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </a>
+
+                                    <!-- Chỉnh sửa -->
+                                    <a href="#"
+                                        class="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors cursor-pointer"
+                                        title="Chỉnh sửa thông tin">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </a>
+
+                                    <!-- Xóa -->
+                                    <button type="button"
+                                        class="p-2 rounded-lg text-neutral-400 hover:text-red-400 hover:bg-neutral-900 transition-colors cursor-pointer"
+                                        title="Xóa tài khoản">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-neutral-500 font-mono-code">
+                            <td colspan="7" class="px-6 py-12 text-center text-neutral-500 font-mono-code">
                                 Chưa có khách hàng nào trong hệ thống.
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+            <!-- Phân trang -->
+            <div>
+                @if (isset($users) && method_exists($users, 'links'))
+                    {{ $users->withQueryString()->links('components.pagination') }}
+                @endif
+            </div>
         </div>
     </div>
 @endsection
